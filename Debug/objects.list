@@ -1,5 +1,8 @@
 "./Core/Inc/duration.o"
 "./Core/Inc/time.o"
+"./Core/Src/Motors.o"
+"./Core/Src/Odometry.o"
+"./Core/Src/Robot_Navi_Euro2023.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"

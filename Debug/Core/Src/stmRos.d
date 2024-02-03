@@ -1,13 +1,7 @@
-Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/stmRos.h \
- ../Core/Inc/ros.h ../Core/Inc/ros/node_handle.h \
- ../Core/Inc/std_msgs/Time.h ../Core/Inc/ros/msg.h ../Core/Inc/ros/time.h \
- ../Core/Inc/ros/duration.h ../Core/Inc/rosserial_msgs/TopicInfo.h \
- ../Core/Inc/rosserial_msgs/Log.h \
- ../Core/Inc/rosserial_msgs/RequestParam.h ../Core/Inc/ros/publisher.h \
- ../Core/Inc/ros/node_handle.h ../Core/Inc/ros/subscriber.h \
- ../Core/Inc/ros/service_server.h ../Core/Inc/ros/service_client.h \
- ../Core/Inc/STM32Hardware.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/std_msgs/String.h \
+ ../Core/Inc/ros/msg.h ../Core/Inc/std_srvs/Empty.h \
+ ../Core/Inc/Robot_Navi_Euro20.h ../Core/Inc/Odometry.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -35,23 +29,26 @@ Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/stmRos.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/std_msgs/String.h
-../Core/Inc/stmRos.h:
-../Core/Inc/ros.h:
-../Core/Inc/ros/node_handle.h:
-../Core/Inc/std_msgs/Time.h:
+ ../Core/Inc/Motors.h ../Core/Inc/stmRos.h ../Core/Inc/ros.h \
+ ../Core/Inc/ros/node_handle.h ../Core/Inc/std_msgs/Time.h \
+ ../Core/Inc/ros/time.h ../Core/Inc/ros/duration.h \
+ ../Core/Inc/rosserial_msgs/TopicInfo.h ../Core/Inc/rosserial_msgs/Log.h \
+ ../Core/Inc/rosserial_msgs/RequestParam.h ../Core/Inc/ros/publisher.h \
+ ../Core/Inc/ros/node_handle.h ../Core/Inc/ros/subscriber.h \
+ ../Core/Inc/ros/service_server.h ../Core/Inc/ros/service_client.h \
+ ../Core/Inc/STM32Hardware.h ../Core/Inc/geometry_msgs/Twist.h \
+ ../Core/Inc/geometry_msgs/Vector3.h ../Core/Inc/std_srvs/SetBool.h \
+ ../Core/Inc/std_msgs/Bool.h ../Core/Inc/std_msgs/Float32.h \
+ ../Core/Inc/gazebo_msgs/ApplyJointEffort.h \
+ ../Core/Inc/gazebo_msgs/GetLightProperties.h \
+ ../Core/Inc/std_msgs/ColorRGBA.h \
+ ../Core/Inc/ros_essentials_cpp/RobotCmd.h
+../Core/Inc/std_msgs/String.h:
 ../Core/Inc/ros/msg.h:
-../Core/Inc/ros/time.h:
-../Core/Inc/ros/duration.h:
-../Core/Inc/rosserial_msgs/TopicInfo.h:
-../Core/Inc/rosserial_msgs/Log.h:
-../Core/Inc/rosserial_msgs/RequestParam.h:
-../Core/Inc/ros/publisher.h:
-../Core/Inc/ros/node_handle.h:
-../Core/Inc/ros/subscriber.h:
-../Core/Inc/ros/service_server.h:
-../Core/Inc/ros/service_client.h:
-../Core/Inc/STM32Hardware.h:
+../Core/Inc/std_srvs/Empty.h:
+../Core/Inc/Robot_Navi_Euro20.h:
+../Core/Inc/Odometry.h:
+../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -80,4 +77,28 @@ Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/stmRos.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/std_msgs/String.h:
+../Core/Inc/Motors.h:
+../Core/Inc/stmRos.h:
+../Core/Inc/ros.h:
+../Core/Inc/ros/node_handle.h:
+../Core/Inc/std_msgs/Time.h:
+../Core/Inc/ros/time.h:
+../Core/Inc/ros/duration.h:
+../Core/Inc/rosserial_msgs/TopicInfo.h:
+../Core/Inc/rosserial_msgs/Log.h:
+../Core/Inc/rosserial_msgs/RequestParam.h:
+../Core/Inc/ros/publisher.h:
+../Core/Inc/ros/node_handle.h:
+../Core/Inc/ros/subscriber.h:
+../Core/Inc/ros/service_server.h:
+../Core/Inc/ros/service_client.h:
+../Core/Inc/STM32Hardware.h:
+../Core/Inc/geometry_msgs/Twist.h:
+../Core/Inc/geometry_msgs/Vector3.h:
+../Core/Inc/std_srvs/SetBool.h:
+../Core/Inc/std_msgs/Bool.h:
+../Core/Inc/std_msgs/Float32.h:
+../Core/Inc/gazebo_msgs/ApplyJointEffort.h:
+../Core/Inc/gazebo_msgs/GetLightProperties.h:
+../Core/Inc/std_msgs/ColorRGBA.h:
+../Core/Inc/ros_essentials_cpp/RobotCmd.h:

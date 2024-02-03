@@ -21,7 +21,62 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Odometry.h"
+#include "Robot_Navi_Euro20.h"
+#include "Motors.h"
+#include <stdbool.h>
 #include "stmRos.h"
+
+
+extern int sum;
+extern bool evitementFlag;
+extern volatile float current_x;
+extern volatile float current_y;
+extern volatile float left_radius,right_radius,spacing_encoder,spacing_wheel;
+
+extern float** matrix;
+int taille;
+extern float Vx;
+extern float Vz;
+float PWMR,PWML,PWM_linear,PWM_angular;
+int PWM;
+int PWM_Min=950;
+extern uint32_t right_forward;
+extern uint32_t right_backward;
+extern uint32_t left_forward;
+extern uint32_t left_backward;
+extern TIM_HandleTypeDef* htim_Motors;
+
+extern int right_correction,left_correction;
+extern volatile float total_right,d_right_counter;
+extern volatile float total_left,d_left_counter,total_centre;
+extern int PWM_LB,PWM_RB;
+extern int coef_correct_dist;
+extern volatile long total_right_count;
+extern volatile long total_left_count;
+extern float test;
+
+extern volatile float spacing_wheel;
+
+
+double right_error1=0;
+double i_right_error1=0;
+double left_error1=0;
+double i_left_error1=0;
+
+extern float kp, ki;
+float kpros=2, kiros=0;
+extern volatile double left_speed,left_encoder_speed;
+extern volatile double right_speed,right_encoder_speed;
+extern volatile long t;
+unsigned long long int delta=0,t0=0;
+extern int PWM_L,PWM_R;
+extern int i ;
+extern char buf[64];
+
+extern double v_rx ;
+extern double omega_r ;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,14 +162,38 @@ int main(void)
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 
+  set_dimentions(40.58023,40.3802,252.5,131);//40.36836,40.59922,246,108.45 ROBOT SGHIR //40.36836,40.59922,265,120.2 ROBOT PRINCIPAL
+         set_motors(&htim1,4499,TIM_CHANNEL_4,TIM_CHANNEL_3,TIM_CHANNEL_2,TIM_CHANNEL_1);
+         set_right_encoder(&htim3,TIM3,400,4,1);//400 ROBOT KBIR
+         set_left_encoder(&htim4,TIM4,400,4,-1);
+         HAL_TIM_Base_Start_IT(&htim7);
+         set_PWM_min (900,900,900,900);
+
+         setup();
+
+
+
+/*
+     PWM_L=2000;
+     PWM_R=2000;
+
+     run_motors();
+     HAL_Delay(3000);
+     stop_motors();
+*/
+   /*      move_distance(500, 300);
+         HAL_Delay(1000);
+         move_distance(-500, 600);
+*/
+
   /* USER CODE END 2 */
-  setup();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  loop();
+	 loop();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -207,10 +286,6 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_OC_Init(&htim1) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
@@ -232,12 +307,11 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
-  if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -477,7 +551,21 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+extern volatile long t;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance==TIM7) //check if the interrupt comes from TIM7
+	{
+		update_position();
+		PWM_sign_change_counter();
+		if (t%T == 0){
+//				loop();
+			speed_calcul();
 
+		}
+
+	}
+}
 /* USER CODE END 4 */
 
 /**
