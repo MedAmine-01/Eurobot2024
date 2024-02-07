@@ -41,8 +41,8 @@ Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/std_msgs/String.h \
  ../Core/Inc/std_msgs/Bool.h ../Core/Inc/std_msgs/Float32.h \
  ../Core/Inc/gazebo_msgs/ApplyJointEffort.h \
  ../Core/Inc/gazebo_msgs/GetLightProperties.h \
- ../Core/Inc/std_msgs/ColorRGBA.h \
- ../Core/Inc/ros_essentials_cpp/RobotCmd.h
+ ../Core/Inc/std_msgs/ColorRGBA.h ../Core/Inc/eurobot2024/RobotCmd.h \
+ ../Core/Inc/eurobot2024/EncoderReadings.h ../Core/Inc/eurobot2024/Pose.h
 ../Core/Inc/std_msgs/String.h:
 ../Core/Inc/ros/msg.h:
 ../Core/Inc/std_srvs/Empty.h:
@@ -101,4 +101,6 @@ Core/Src/stmRos.o: ../Core/Src/stmRos.cpp ../Core/Inc/std_msgs/String.h \
 ../Core/Inc/gazebo_msgs/ApplyJointEffort.h:
 ../Core/Inc/gazebo_msgs/GetLightProperties.h:
 ../Core/Inc/std_msgs/ColorRGBA.h:
-../Core/Inc/ros_essentials_cpp/RobotCmd.h:
+../Core/Inc/eurobot2024/RobotCmd.h:
+../Core/Inc/eurobot2024/EncoderReadings.h:
+../Core/Inc/eurobot2024/Pose.h:

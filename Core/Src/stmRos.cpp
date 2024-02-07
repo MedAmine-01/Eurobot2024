@@ -1,8 +1,6 @@
 
 #include <std_msgs/String.h>
 #include <std_srvs/Empty.h>
-
-
 #include <Robot_Navi_Euro20.h>
 #include <stmRos.h>
 #include <ros.h>
@@ -15,12 +13,15 @@
 #include <iostream>
 #include <gazebo_msgs/ApplyJointEffort.h>
 #include <gazebo_msgs/GetLightProperties.h>
-#include <ros_essentials_cpp/RobotCmd.h>
+#include <eurobot2024/RobotCmd.h>
+#include <eurobot2024/EncoderReadings.h>
+#include <eurobot2024/Pose.h>
 using namespace std;
 
-
+void publishEncoderReadings();
+void publishCurrentPose();
 void callback(const std_msgs::String& command);
-void commandCallback(const ros_essentials_cpp::RobotCmdRequest & req,ros_essentials_cpp::RobotCmdResponse & res);
+void commandCallback(const eurobot2024::RobotCmdRequest & req,eurobot2024::RobotCmdResponse & res);
 
 
 
@@ -36,6 +37,7 @@ extern volatile double right_speed, left_speed;
 extern volatile float spacing_encoder;
 extern volatile double right_encoder_speed,left_encoder_speed;
 extern volatile float left_radius,right_radius,spacing_encoder,spacing_wheel;
+extern volatile long total_right_count, total_left_count;
 float test;
 double v_rx ;
 double omega_r ;
@@ -51,13 +53,18 @@ char ch;
 ros::NodeHandle nh;
 
 std_msgs::String str_msg;
-ros::Publisher chatter("chatter", &str_msg);
-char hello[] = "Hello world!";
+
+eurobot2024::EncoderReadings enc_read;
+eurobot2024::Pose current_pose;
+
+ros::Publisher encoderReadings("EncoderReadings", &enc_read);
+ros::Publisher pose("Pose", &current_pose);
+
 
 
 ros::Subscriber<std_msgs::String> sub("command", &callback);
 
-ros::ServiceServer<ros_essentials_cpp::RobotCmdRequest, ros_essentials_cpp::RobotCmdResponse> subCommandStm("/StmCommand", &commandCallback );
+ros::ServiceServer<eurobot2024::RobotCmdRequest, eurobot2024::RobotCmdResponse> subCommandStm("/StmCommand", &commandCallback );
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
   nh.getHardware()->flush();
@@ -70,23 +77,34 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 void setup(void)
 {
   nh.initNode();
-  nh.advertise(chatter);
+  nh.advertise(encoderReadings);
+  nh.advertise(pose);
   nh.advertiseService(subCommandStm);
   nh.subscribe(sub);
 }
 
 void loop(void)
 {
-
  // HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-
-  str_msg.data = hello;
-  chatter.publish(&str_msg);
-  nh.spinOnce();
-
-  HAL_Delay(1000);
+	publishCurrentPose();
 }
 
+void publishEncoderReadings(){
+	enc_read.leftCount=total_left_count;
+	enc_read.rightCount=total_right_count;
+	encoderReadings.publish(&enc_read);
+	nh.spinOnce();
+	HAL_Delay(20);
+}
+
+void publishCurrentPose(){
+	current_pose.x=current_x;
+	current_pose.y=current_y;
+	current_pose.phi_deg=current_phi_deg;
+	pose.publish(&current_pose);
+	nh.spinOnce();
+	HAL_Delay(20);
+}
 
 void callback(const std_msgs::String& command){
 	ch=command.data[0];
@@ -114,7 +132,7 @@ void callback(const std_msgs::String& command){
 	}
 }
 
-void commandCallback(const ros_essentials_cpp::RobotCmdRequest & req,ros_essentials_cpp::RobotCmdResponse & res){
+void commandCallback(const eurobot2024::RobotCmdRequest & req,eurobot2024::RobotCmdResponse & res){
 	/*move_distance(200, 200);
 	HAL_Delay(200);
 	move_distance(-200, 200);
@@ -136,9 +154,9 @@ void commandCallback(const ros_essentials_cpp::RobotCmdRequest & req,ros_essenti
 
 	}
 	else if(!strcmp("test",req.command)){
-			move_distance(200, 200);
+			move_distance(500, 200);
 			HAL_Delay(200);
-			move_distance(-200, 200);
+			move_distance(-500, 200);
 			HAL_Delay(200);
 			rotate(90, 300);
 			HAL_Delay(200);
@@ -168,6 +186,13 @@ void commandCallback(const ros_essentials_cpp::RobotCmdRequest & req,ros_essenti
 					res.success=true;
 					res.message="Success!";
 	}
+	else if(!strcmp("encoders",req.command)){
+						for(int i=0;i<200;i++){
+							publishEncoderReadings();
+						}
+						res.success=true;
+						res.message="Success!";
+		}
 	else {
 		res.success=false;
 		res.message ="FAILED!";
@@ -315,4 +340,3 @@ void rotateAck(){
 	//sending.data=true;
 	//sending_pub.publish(&sending);
 }
-
