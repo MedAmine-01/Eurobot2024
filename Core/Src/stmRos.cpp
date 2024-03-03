@@ -22,7 +22,7 @@ void publishEncoderReadings();
 void publishCurrentPose();
 void callback(const std_msgs::String& command);
 void commandCallback(const eurobot2024::RobotCmdRequest & req,eurobot2024::RobotCmdResponse & res);
-
+void evitement(const std_msgs:: Bool& message);
 
 
 std_msgs::Float32 l1_p;
@@ -49,7 +49,7 @@ float Vz;
 
 
 
-char ch;
+
 ros::NodeHandle nh;
 
 std_msgs::String str_msg;
@@ -62,7 +62,7 @@ ros::Publisher pose("Pose", &current_pose);
 
 
 
-ros::Subscriber<std_msgs::String> sub("command", &callback);
+ros::Subscriber<std_msgs::Bool> sub("evitementFlag", &evitement);
 
 ros::ServiceServer<eurobot2024::RobotCmdRequest, eurobot2024::RobotCmdResponse> subCommandStm("/StmCommand", &commandCallback );
 
@@ -87,6 +87,11 @@ void loop(void)
 {
  // HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	publishCurrentPose();
+	/*if(evitementFlag)
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	else
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	*/
 }
 
 void publishEncoderReadings(){
@@ -103,33 +108,13 @@ void publishCurrentPose(){
 	current_pose.phi_deg=current_phi_deg;
 	pose.publish(&current_pose);
 	nh.spinOnce();
-	HAL_Delay(20);
+	HAL_Delay(150);
 }
 
-void callback(const std_msgs::String& command){
-	ch=command.data[0];
-	if(ch=='n'){
-		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-		move_distance(200, 200);
-		HAL_Delay(200);
-		move_distance(-200, 200);
-		HAL_Delay(200);
-		rotate(90, 200);
-				HAL_Delay(200);
-				rotate(-90, 200);
-	}
-	else if(ch=='f'){
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	}
-	else if(ch=='t'){
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		HAL_Delay(200);
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		HAL_Delay(200);
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		HAL_Delay(200);
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	}
+
+
+void evitement(const std_msgs::Bool& message){
+	evitementFlag = message.data;
 }
 
 void commandCallback(const eurobot2024::RobotCmdRequest & req,eurobot2024::RobotCmdResponse & res){
@@ -192,6 +177,20 @@ void commandCallback(const eurobot2024::RobotCmdRequest & req,eurobot2024::Robot
 						}
 						res.success=true;
 						res.message="Success!";
+		}
+	else if(!strcmp("setCoords",req.command)){
+							current_x=req.x;
+							current_y=req.y;
+							current_phi_deg=req.phi;
+							current_phi_rad = req.phi/180*M_PI;
+							res.success=true;
+							res.message="Success!";
+		}
+	else if(!strcmp("setRaduis",req.command)){
+								right_radius=req.x;
+								left_radius=req.y;
+								res.success=true;
+								res.message="Success!";
 		}
 	else {
 		res.success=false;

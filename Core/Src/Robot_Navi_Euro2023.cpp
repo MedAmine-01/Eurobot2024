@@ -52,7 +52,7 @@ float speed_ref, ramp = 400, rampR=100,rampC=500;//max 1500 //deja 800 vitesse k
 int sens;
 double right_error=0,i_right_error=0;
 double left_error=0,i_left_error=0;
-float kp = 9.1, ki = 2.1;
+float kp = 8, ki = 0.7;//9.1 2.1
 
 //Move
 int coef_correct_dist = 30;//25
@@ -121,10 +121,12 @@ void allocation (int taille ) {
 }
 
 
-
+float ramp_evitement=700;
+int i=0;
 void move_distance(float distance,float speed)
 {
 	init();
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 	int z=0;
 	//Set accel/decel distance
 	if (fabs(distance) < (speed*speed/ramp))
@@ -145,9 +147,18 @@ void move_distance(float distance,float speed)
 //			loop();
 //			HAL_Delay(5);
 		nh.spinOnce();
-        if(!evitementFlag && !outsideofmap(x_obst_abs,y_obst_abs))
-        	break;
 		t0=t;
+        if(!evitementFlag /*&& !outsideofmap(x_obst_abs,y_obst_abs)*/){
+        	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+        	if(i==0){
+        		if(fabs((total_right+total_left)/2) < accel_dist)
+        			distance=(total_right+total_left);
+        		else if(!(fabs((total_right+total_left)/2) < accel_dist) && ! (fabs((total_right+total_left)/2 -distance) < decel_dist))
+        			distance=((total_right+total_left)/2)+accel_dist;
+        		i++;
+        	}
+        	//break;
+        }
 		//Accel/Decel Speed Set
 		if (((total_right+total_left)/2 -distance)<0)
 			sens = 1;
@@ -157,7 +168,10 @@ void move_distance(float distance,float speed)
 			speed_ref = sens*50+sens*(constrain(sqrt (ramp*fabs(total_right+total_left))-50,0,1000));
 
 		else if (fabs((total_right+total_left)/2 -distance) < decel_dist)
-			speed_ref = sens*10+sens*constrain((sqrt(2*ramp*fabs((total_right+total_left)/2 -distance))-10),0,1000);//fabs((total_right+total_left)/2 -distance)
+			if(i==0)
+				speed_ref = sens*10+sens*constrain((sqrt(2*ramp*fabs((total_right+total_left)/2 -distance))-10),0,1000);//fabs((total_right+total_left)/2 -distance)
+			else
+				speed_ref = sens*10+sens*constrain((sqrt(2*ramp_evitement*fabs((total_right+total_left)/2 -distance))-10),0,1000);
 		else
 			speed_ref = sens*speed;
 		//Right wheel regulation
@@ -184,7 +198,7 @@ void move_distance(float distance,float speed)
 		do delta=t-t0;
 		while (delta<T);//taslih
 	}
-
+	i=0;
 	stop_motors();
 }
 

@@ -73,15 +73,15 @@
 ../Core/Src/stmRos.cpp:73:6:void HAL_UART_RxCpltCallback(UART_HandleTypeDef*)	1
 ../Core/Src/stmRos.cpp:77:6:void setup()	1
 ../Core/Src/stmRos.cpp:86:6:void loop()	1
-../Core/Src/stmRos.cpp:92:6:void publishEncoderReadings()	1
-../Core/Src/stmRos.cpp:100:6:void publishCurrentPose()	1
-../Core/Src/stmRos.cpp:109:6:void callback(const std_msgs::String&)	4
-../Core/Src/stmRos.cpp:135:6:void commandCallback(const eurobot2024::RobotCmdRequest&, eurobot2024::RobotCmdResponse&)	9
-../Core/Src/stmRos.cpp:339:6:void rotateAck()	1
+../Core/Src/stmRos.cpp:97:6:void publishEncoderReadings()	1
+../Core/Src/stmRos.cpp:105:6:void publishCurrentPose()	1
+../Core/Src/stmRos.cpp:116:6:void evitement(const std_msgs::Bool&)	1
+../Core/Src/stmRos.cpp:120:6:void commandCallback(const eurobot2024::RobotCmdRequest&, eurobot2024::RobotCmdResponse&)	11
+../Core/Src/stmRos.cpp:338:6:void rotateAck()	1
 ../Core/Inc/ros/msg.h:188:15:static void ros::Msg::varToArr(A, V) [with A = unsigned char*; V = long unsigned int]	2
 ../Core/Inc/ros/msg.h:196:15:static void ros::Msg::arrToVar(V&, A) [with V = long unsigned int; A = unsigned char*]	2
 ../Core/Inc/ros/subscriber.h:44:7:ros::Subscriber_::Subscriber_()	1
-../Core/Inc/ros/subscriber.h:107:3:ros::Subscriber<MsgT, void>::Subscriber(const char*, ros::Subscriber<MsgT, void>::CallbackT, int) [with MsgT = std_msgs::String]	1
+../Core/Inc/ros/subscriber.h:107:3:ros::Subscriber<MsgT, void>::Subscriber(const char*, ros::Subscriber<MsgT, void>::CallbackT, int) [with MsgT = std_msgs::Bool]	1
 ../Core/Inc/ros/service_server.h:94:3:ros::ServiceServer<MReq, MRes, void>::ServiceServer(const char*, ros::ServiceServer<MReq, MRes, void>::CallbackT) [with MReq = eurobot2024::RobotCmdRequest; MRes = eurobot2024::RobotCmdResponse]	1
 ../Core/Inc/ros/node_handle.h:128:13:Hardware* ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::getHardware() [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
 ../Core/Inc/ros/node_handle.h:134:8:void ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::initNode() [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
@@ -96,15 +96,15 @@
 ../Core/Inc/ros/node_handle.h:377:8:void ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::setNow(const ros::Time&) [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
 ../Core/Inc/ros/node_handle.h:531:8:void ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::logerror(const char*) [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
 ../Core/Inc/ros/node_handle.h:510:8:void ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::log(char, const char*) [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
-../Core/Src/stmRos.cpp:342:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/stmRos.cpp:341:1:void __static_initialization_and_destruction_0(int, int)	5
 ../Core/Inc/ros/service_server.h:102:16:void ros::ServiceServer<MReq, MRes, void>::callback(unsigned char*) [with MReq = eurobot2024::RobotCmdRequest; MRes = eurobot2024::RobotCmdResponse]	1
 ../Core/Inc/ros/service_server.h:116:15:int ros::ServiceServer<MReq, MRes, void>::getEndpointType() [with MReq = eurobot2024::RobotCmdRequest; MRes = eurobot2024::RobotCmdResponse]	1
 ../Core/Inc/ros/service_server.h:108:24:const char* ros::ServiceServer<MReq, MRes, void>::getMsgType() [with MReq = eurobot2024::RobotCmdRequest; MRes = eurobot2024::RobotCmdResponse]	1
 ../Core/Inc/ros/service_server.h:112:24:const char* ros::ServiceServer<MReq, MRes, void>::getMsgMD5() [with MReq = eurobot2024::RobotCmdRequest; MRes = eurobot2024::RobotCmdResponse]	1
-../Core/Inc/ros/subscriber.h:114:16:void ros::Subscriber<MsgT, void>::callback(unsigned char*) [with MsgT = std_msgs::String]	1
-../Core/Inc/ros/subscriber.h:128:15:int ros::Subscriber<MsgT, void>::getEndpointType() [with MsgT = std_msgs::String]	1
-../Core/Inc/ros/subscriber.h:120:24:const char* ros::Subscriber<MsgT, void>::getMsgType() [with MsgT = std_msgs::String]	1
-../Core/Inc/ros/subscriber.h:124:24:const char* ros::Subscriber<MsgT, void>::getMsgMD5() [with MsgT = std_msgs::String]	1
+../Core/Inc/ros/subscriber.h:114:16:void ros::Subscriber<MsgT, void>::callback(unsigned char*) [with MsgT = std_msgs::Bool]	1
+../Core/Inc/ros/subscriber.h:128:15:int ros::Subscriber<MsgT, void>::getEndpointType() [with MsgT = std_msgs::Bool]	1
+../Core/Inc/ros/subscriber.h:120:24:const char* ros::Subscriber<MsgT, void>::getMsgType() [with MsgT = std_msgs::Bool]	1
+../Core/Inc/ros/subscriber.h:124:24:const char* ros::Subscriber<MsgT, void>::getMsgMD5() [with MsgT = std_msgs::Bool]	1
 ../Core/Inc/ros/node_handle.h:338:16:bool ros::NodeHandle_<Hardware, MAX_SUBSCRIBERS, MAX_PUBLISHERS, INPUT_SIZE, OUTPUT_SIZE>::connected() [with Hardware = STM32Hardware; int MAX_SUBSCRIBERS = 25; int MAX_PUBLISHERS = 25; int INPUT_SIZE = 512; int OUTPUT_SIZE = 512]	1
-../Core/Src/stmRos.cpp:342:1:cpp)	1
-../Core/Src/stmRos.cpp:342:1:cpp)	1
+../Core/Src/stmRos.cpp:341:1:cpp)	1
+../Core/Src/stmRos.cpp:341:1:cpp)	1

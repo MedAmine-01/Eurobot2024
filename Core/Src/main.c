@@ -163,7 +163,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   set_dimentions(40.58023,40.3802,252.5,131);//40.36836,40.59922,246,108.45 ROBOT SGHIR //40.36836,40.59922,265,120.2 ROBOT PRINCIPAL
-         set_motors(&htim1,4499,TIM_CHANNEL_4,TIM_CHANNEL_3,TIM_CHANNEL_2,TIM_CHANNEL_1);
+         set_motors(&htim1,4499,TIM_CHANNEL_1,TIM_CHANNEL_2,TIM_CHANNEL_4,TIM_CHANNEL_3);
          set_right_encoder(&htim3,TIM3,400,4,1);//400 ROBOT KBIR
          set_left_encoder(&htim4,TIM4,400,4,-1);
          HAL_TIM_Base_Start_IT(&htim7);
@@ -173,20 +173,20 @@ int main(void)
 
 
 
-/*
-     PWM_L=2000;
-     PWM_R=2000;
+
+   /*  PWM_L=1000;
+     PWM_R=1000;
 
      run_motors();
-     HAL_Delay(3000);
-     stop_motors();
-*/
 
-   /*      move_distance(500, 300);
+HAL_Delay(5000);
+stop_motors();
+*/
+      /*   HAL_Delay(2000);
+         move_distance(500, 300);
          HAL_Delay(1000);
-         move_distance(-500, 600);
+         move_distance(-500, 300);
 */
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -194,7 +194,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	 loop();
+		 loop();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
