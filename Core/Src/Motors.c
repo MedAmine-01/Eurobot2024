@@ -2,7 +2,7 @@
 
 TIM_HandleTypeDef* htim_Motors;
 uint32_t right_forward, right_backward, left_forward, left_backward;
-int PWM_R,PWM_L;
+int PWM_R,PWM_L; //positive ou négative
 int PWM_Max;
 int PWM_R_Min,PWM_L_Min;
 int PWM_R_Min_Rot,PWM_L_Min_Rot;
